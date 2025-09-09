@@ -8,6 +8,7 @@ import DonationBox from "./components/DonationBox";
 import FullGalleryWithHero from "./components/FullGalleryWithHero";
 import ComingSoon from "./components/coming-soon";
 import NavYuvakForm from "./components/Registration";
+import ThankYou from "./components/Thankyou";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/donation" element={<DonationBox />} />
         <Route path="/coming_soon" element={<ComingSoon />} />
          <Route path="/registration" element={<NavYuvakForm />} />
+         <Route path="/thank-you" element={<ThankYou />} />
       </Routes>
     </>
   );
