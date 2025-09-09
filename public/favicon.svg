@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Gradient background -->
+  <defs>
+    <radialGradient id="grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FF9800"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </radialGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+
+  <!-- Circle background -->
+  <circle cx="32" cy="32" r="30" fill="url(#grad)" />
+
+  <!-- ॐ Symbol -->
+  <text x="32" y="42"
+    text-anchor="middle"
+    font-family="Noto Sans Devanagari, 'Devanagari MT', 'Lohit Devanagari', sans-serif"
+    font-weight="900"
+    font-size="38"
+    fill="#FFFFFF"
+    stroke="#FFD700"
+    stroke-width="2"
+    paint-order="stroke"
+    filter="url(#shadow)">
+    ॐ
+  </text>
+</svg>
