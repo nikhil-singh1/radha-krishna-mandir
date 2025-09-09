@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // for redirect
 
 const NavYuvakForm = () => {
+  const navigate = useNavigate(); // hook to redirect
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: "",
@@ -21,6 +23,7 @@ const NavYuvakForm = () => {
   const [loading, setLoading] = useState(false);
   const [successMsg, setSuccessMsg] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [submitted, setSubmitted] = useState(false); // for button success state
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -39,8 +42,9 @@ const NavYuvakForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setSuccessMsg("");
     setErrorMsg("");
+    setSuccessMsg("");
+    setSubmitted(false);
 
     try {
       const data = new FormData();
@@ -52,7 +56,15 @@ const NavYuvakForm = () => {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
+      setSubmitted(true);
       setSuccessMsg("पंजीकरण सफल! / Registration Successful! 🙏");
+
+      // Optional: redirect after short delay
+      setTimeout(() => {
+        navigate("/thank-you"); // make sure you have this route in your app
+      }, 1500);
+
+      // Reset form
       setFormData({
         name: "",
         fatherName: "",
@@ -70,7 +82,9 @@ const NavYuvakForm = () => {
       setStep(1);
     } catch (err) {
       console.error(err);
-      setErrorMsg("सर्वर में त्रुटि। / Server error. कृपया बाद में प्रयास करें।");
+      setErrorMsg(
+        "सर्वर में त्रुटि। / Server error. कृपया बाद में प्रयास करें।"
+      );
     } finally {
       setLoading(false);
     }
@@ -87,10 +101,14 @@ const NavYuvakForm = () => {
           🌸 नव युवक समिति – सदस्य पंजीकरण 🌸
         </h2>
         <p className="text-gray-700 mb-2">
-          यह फ़ॉर्म नव युवक समिति सदस्य पंजीकरण के लिए है। यह समिति किसी भी पुरानी बनी हुई समिति या पंचायत से संबंध नहीं रखती। यह समिति केवल मंदिर के विकास और जन-सेवा के उद्देश्य से बनाई जा रही है।
+          यह फ़ॉर्म नव युवक समिति सदस्य पंजीकरण के लिए है। यह समिति किसी
+          भी पुरानी बनी हुई समिति या पंचायत से संबंध नहीं रखती। यह समिति केवल
+          मंदिर के विकास और जन-सेवा के उद्देश्य से बनाई जा रही है।
         </p>
         <p className="text-gray-700 mb-2">
-          This form is for registering as a member of the Nav Yuvak Committee. The committee has no connection with any old committee or local council. It is formed solely for temple development and public service.
+          This form is for registering as a member of the Nav Yuvak Committee.
+          The committee has no connection with any old committee or local council.
+          It is formed solely for temple development and public service.
         </p>
         <p className="text-gray-800 font-semibold mt-3">
           जो भी व्यक्ति इसमें हिस्सा लेना चाहता है, वह अपना पंजीकरण कराए। <br />
@@ -98,18 +116,30 @@ const NavYuvakForm = () => {
         </p>
 
         <div className="mt-4 text-left bg-yellow-50 p-4 rounded border-l-4 border-red-500">
-          <p className="font-semibold mb-2">समिति में पंजीकरण के प्रकार / Membership Types:</p>
+          <p className="font-semibold mb-2">
+            समिति में पंजीकरण के प्रकार / Membership Types:
+          </p>
           <ul className="list-disc list-inside text-gray-700">
-            <li>PRO Member – नौकरी/रोज़गार से जुड़े हैं – ₹200+ (200 ₹ आधार है, अधिक देने की सुविधा)</li>
+            <li>
+              PRO Member – नौकरी/रोज़गार से जुड़े हैं – ₹200+ (200 ₹ आधार है,
+              अधिक देने की सुविधा)
+            </li>
             <li>Core Member – घर से समर्थ हैं – ₹100 (100 ₹ आधार)</li>
             <li>Member – केवल सेवा देंगे – कोई राशि नहीं / Only Service</li>
           </ul>
-          <p className="text-red-600 font-semibold mt-2">⚠️ महत्वपूर्ण सूचना / Important Notice:</p>
+          <p className="text-red-600 font-semibold mt-2">
+            ⚠️ महत्वपूर्ण सूचना / Important Notice:
+          </p>
           <ul className="list-disc list-inside text-gray-700">
             <li>समिति में किसी भी प्रकार की राजनीतिक चर्चा/गतिविधि नहीं की जाएगी।</li>
             <li>यह समिति केवल मंदिर के विकास और जनसेवा के लिए समर्पित है।</li>
             <li>यदि आप ऊपर बताए गए बिंदुओं से सहमत हैं तो ही पंजीकरण करें।</li>
-            <li>Online Registration: <span className="font-bold text-orange-700">www.radharanitemple.in</span></li>
+            <li>
+              Online Registration:{" "}
+              <span className="font-bold text-orange-700">
+                www.radharanitemple.in
+              </span>
+            </li>
           </ul>
         </div>
       </div>
@@ -122,7 +152,6 @@ const NavYuvakForm = () => {
               ✍️ Registration Form – Step 1
             </h2>
             <form onSubmit={handleProceed} className="space-y-4">
-              {/* Personal Info */}
               <div>
                 <label className="block font-semibold">नाम / Name:</label>
                 <input
@@ -135,7 +164,9 @@ const NavYuvakForm = () => {
                 />
               </div>
               <div>
-                <label className="block font-semibold">पिता का नाम / Father’s Name:</label>
+                <label className="block font-semibold">
+                  पिता का नाम / Father’s Name:
+                </label>
                 <input
                   type="text"
                   name="fatherName"
@@ -206,7 +237,9 @@ const NavYuvakForm = () => {
                 />
               </div>
               <div>
-                <label className="block font-semibold">सदस्यता प्रकार / Membership:</label>
+                <label className="block font-semibold">
+                  सदस्यता प्रकार / Membership:
+                </label>
                 <select
                   name="membership"
                   value={formData.membership}
@@ -248,7 +281,9 @@ const NavYuvakForm = () => {
             </h2>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block font-semibold">भुगतान का तरीका / Payment Mode:</label>
+                <label className="block font-semibold">
+                  भुगतान का तरीका / Payment Mode:
+                </label>
                 <select
                   name="paymentMode"
                   value={formData.paymentMode}
@@ -273,7 +308,9 @@ const NavYuvakForm = () => {
                     className="w-48 mx-auto mb-4"
                   />
                   <div>
-                    <label className="block font-semibold">राशि दर्ज करें / Enter Amount:</label>
+                    <label className="block font-semibold">
+                      राशि दर्ज करें / Enter Amount:
+                    </label>
                     <input
                       type="number"
                       name="amount"
@@ -314,17 +351,19 @@ const NavYuvakForm = () => {
                 </p>
               )}
               {errorMsg && (
-                <p className="text-red-600 font-semibold text-center">
-                  {errorMsg}
-                </p>
+                <p className="text-red-600 font-semibold text-center">{errorMsg}</p>
               )}
 
               <button
                 type="submit"
-                disabled={loading}
-                className="w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700"
+                disabled={loading || submitted}
+                className={`w-full py-3 rounded-lg font-bold ${
+                  submitted
+                    ? "bg-green-500 text-white cursor-default"
+                    : "bg-green-600 text-white hover:bg-green-700"
+                }`}
               >
-                {loading ? "Submitting..." : "Register Now 🙏"}
+                {loading ? "Submitting..." : submitted ? "Submitted ✅" : "Register Now 🙏"}
               </button>
             </form>
           </>
